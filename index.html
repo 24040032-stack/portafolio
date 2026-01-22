@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portafolio SOA - Lucas Ariel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
+        body { font-family: 'Montserrat', sans-serif; scroll-behavior: smooth; }
+        .view { display: none; }
+        .view.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        #search-overlay { transition: all 0.3s ease; opacity: 0; visibility: hidden; }
+        #search-overlay.open { opacity: 1; visibility: visible; }
+        
+        /* Estilos para los Acordeones */
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+        .accordion-item.active .accordion-content { max-height: 5000px; padding-bottom: 40px; }
+        .accordion-item.active .fa-chevron-down { transform: rotate(180deg); }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen flex flex-col">
+
+    <header class="bg-[#1e1e4f] text-white shadow-2xl sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="showView('main-menu')">
+                <div class="bg-indigo-500 p-2 rounded-lg shadow-lg"><i class="fas fa-network-wired"></i></div>
+                <div>
+                    <h1 class="text-xl font-black tracking-tight italic leading-none uppercase">PORTFOLIO</h1>
+                    <p class="text-[9px] opacity-70 font-bold uppercase tracking-widest mt-1">Lucas Ariel</p>
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-4">
+                <button onclick="showView('main-menu')" class="hidden md:block bg-white/5 hover:bg-white/10 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition">
+                    <i class="fas fa-home mr-1"></i> Inicio
+                </button>
+                <button onclick="toggleSearch()" class="bg-white/10 hover:bg-indigo-500 w-12 h-12 rounded-full transition flex items-center justify-center border border-white/20">
+                    <i class="fas fa-search text-lg"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div id="search-overlay" class="fixed inset-0 bg-[#0f0f2d]/95 z-[60] flex flex-col items-center justify-center p-6">
+        <button onclick="toggleSearch()" class="absolute top-8 right-8 text-white text-3xl hover:text-red-400">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="w-full max-w-2xl">
+            <h3 class="text-indigo-400 text-center font-black uppercase tracking-[0.3em] mb-8">Seleccionar Unidad</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <button onclick="selectFromSearch(1, 'Introducción al Desarrollo Web')" class="bg-white/5 hover:bg-white/20 p-6 rounded-2xl text-left border border-white/10 transition group">
+                    <span class="text-indigo-400 font-black block mb-1">01</span>
+                    <span class="text-white font-bold text-sm uppercase">Introducción al Desarrollo Web</span>
+                </button>
+                <button onclick="selectFromSearch(2, 'Implementación de API')" class="bg-white/5 hover:bg-white/20 p-6 rounded-2xl text-left border border-white/10 transition group">
+                    <span class="text-emerald-400 font-black block mb-1">02</span>
+                    <span class="text-white font-bold text-sm uppercase">Implementación de API</span>
+                </button>
+                <button onclick="selectFromSearch(3, 'Desarrollo de una API')" class="bg-white/5 hover:bg-white/20 p-6 rounded-2xl text-left border border-white/10 transition group">
+                    <span class="text-purple-400 font-black block mb-1">03</span>
+                    <span class="text-white font-bold text-sm uppercase">Desarrollo de una API</span>
+                </button>
+                <button onclick="selectFromSearch(4, 'Implementación Final')" class="bg-white/5 hover:bg-white/20 p-6 rounded-2xl text-left border border-white/10 transition group">
+                    <span class="text-orange-400 font-black block mb-1">04</span>
+                    <span class="text-white font-bold text-sm uppercase">Implementación Final</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <main class="container mx-auto px-6 py-12 flex-grow">
+        
+        <section id="main-menu" class="view active">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-black text-slate-800 mb-2 uppercase italic tracking-tighter">Panel de Evidencias</h2>
+                <p class="text-slate-400 font-bold uppercase text-[10px] tracking-[0.3em]">Lucas Ariel - 5to Cuatrimestre</p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div onclick="openUnit(1, 'Introducción al Desarrollo Web')" class="bg-white rounded-3xl shadow-xl p-8 cursor-pointer hover:-translate-y-2 transition border-b-8 border-indigo-500 text-center">
+                    <i class="fas fa-folder-open fa-3x text-indigo-400 mb-4"></i>
+                    <h3 class="text-[11px] font-black text-slate-700 uppercase">Unidad 1</h3>
+                </div>
+                <div onclick="openUnit(2, 'Implementación de API')" class="bg-white rounded-3xl shadow-xl p-8 cursor-pointer hover:-translate-y-2 transition border-b-8 border-emerald-500 text-center">
+                    <i class="fas fa-code fa-3x text-emerald-400 mb-4"></i>
+                    <h3 class="text-[11px] font-black text-slate-700 uppercase">Unidad 2</h3>
+                </div>
+                <div onclick="openUnit(3, 'Desarrollo de una API')" class="bg-white rounded-3xl shadow-xl p-8 cursor-pointer hover:-translate-y-2 transition border-b-8 border-purple-500 text-center">
+                    <i class="fas fa-terminal fa-3x text-purple-400 mb-4"></i>
+                    <h3 class="text-[11px] font-black text-slate-700 uppercase">Unidad 3</h3>
+                </div>
+                <div onclick="openUnit(4, 'Implementación Final')" class="bg-white rounded-3xl shadow-xl p-8 cursor-pointer hover:-translate-y-2 transition border-b-8 border-orange-500 text-center">
+                    <i class="fas fa-check-double fa-3x text-orange-400 mb-4"></i>
+                    <h3 class="text-[11px] font-black text-slate-700 uppercase">Unidad 4</h3>
+                </div>
+            </div>
+        </section>
+
+        <section id="unit-detail" class="view">
+            <div class="bg-white rounded-[2.5rem] shadow-2xl p-6 md:p-10 border border-slate-100 max-w-5xl mx-auto">
+                <div class="flex flex-col md:flex-row justify-between items-center mb-10 gap-4">
+                    <div class="flex items-center space-x-4">
+                        <button onclick="showView('main-menu')" class="w-12 h-12 rounded-2xl bg-slate-100 text-slate-500 hover:bg-[#1e1e4f] hover:text-white transition flex items-center justify-center shadow-sm">
+                            <i class="fas fa-home"></i>
+                        </button>
+                        <h2 id="unit-title" class="text-xl md:text-2xl font-black text-slate-900 italic uppercase leading-tight">UNIDAD</h2>
+                    </div>
+                    <button onclick="openModal()" class="bg-green-500 text-white px-8 py-4 rounded-2xl font-black text-[10px] shadow-lg hover:bg-green-600 transition tracking-widest uppercase">
+                        <i class="fas fa-file-upload mr-2"></i> Subir Archivo
+                    </button>
+                </div>
+
+                <div class="space-y-8">
+                    <div class="accordion-item bg-slate-50 rounded-3xl border-2 border-slate-100 active" id="acc-saber">
+                        <div onclick="toggleAccordion('acc-saber')" class="p-5 flex items-center justify-between cursor-pointer">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600">
+                                    <i class="fas fa-chevron-down transition-transform text-xs"></i>
+                                </div>
+                                <span class="font-black text-slate-700 uppercase text-xs tracking-widest">Saber </span>
+                            </div>
+                        </div>
+                        <div class="accordion-content px-6">
+                            <div id="container-saber" class="grid md:grid-cols-2 gap-10 pt-4"></div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item bg-slate-50 rounded-3xl border-2 border-slate-100 active" id="acc-hacer">
+                        <div onclick="toggleAccordion('acc-hacer')" class="p-5 flex items-center justify-between cursor-pointer">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600">
+                                    <i class="fas fa-chevron-down transition-transform text-xs"></i>
+                                </div>
+                                <span class="font-black text-slate-700 uppercase text-xs tracking-widest">Saber Hacer </span>
+                            </div>
+                        </div>
+                        <div class="accordion-content px-6">
+                            <div id="container-hacer" class="grid md:grid-cols-2 gap-10 pt-4"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="modal-upload" class="hidden fixed inset-0 bg-slate-900/95 backdrop-blur-md flex items-center justify-center z-[100] p-4">
+        <div class="bg-white w-full max-w-md rounded-[2.5rem] p-10 shadow-2xl text-center">
+            <h3 class="text-2xl font-black mb-6 italic uppercase">Nueva Evidencia</h3>
+            <form id="form-work" class="space-y-4">
+                <input type="text" id="work-name" placeholder="Título del trabajo" class="w-full border-2 border-slate-100 p-4 rounded-2xl outline-none focus:border-indigo-500 font-bold text-sm" required>
+                
+                <select id="work-type" class="w-full border-2 border-slate-100 p-4 rounded-2xl font-bold text-sm outline-none bg-white">
+                    <option value="saber">Sección: Saber</option>
+                    <option value="hacer">Sección: Saber Hacer</option>
+                </select>
+
+                <div class="relative w-full border-2 border-dashed border-slate-200 p-6 rounded-2xl hover:border-indigo-400 transition group">
+                    <input type="file" id="work-file" class="absolute inset-0 opacity-0 cursor-pointer" required>
+                    <div class="text-slate-400">
+                        <i class="fas fa-cloud-upload-alt fa-2x mb-2 group-hover:text-indigo-500"></i>
+                        <p id="file-label" class="text-[10px] font-bold uppercase">Selecciona tu archivo</p>
+                    </div>
+                </div>
+
+                <textarea id="work-comment" placeholder="Comentario opcional..." class="w-full border-2 border-slate-100 p-4 rounded-2xl outline-none focus:border-indigo-500 font-bold text-sm resize-none" rows="3"></textarea>
+
+                <div class="flex space-x-4 pt-6">
+                    <button type="button" onclick="closeModal()" class="flex-1 font-black text-[10px] text-slate-400 uppercase">Cerrar</button>
+                    <button type="submit" class="flex-[2] bg-indigo-600 text-white py-4 rounded-2xl font-black text-[10px] shadow-xl uppercase tracking-widest">Guardar Trabajo</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer class="bg-[#0a0a23] text-white py-12 px-10 border-t border-white/5 mt-auto">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between gap-10">
+            <div>
+                <h4 class="text-[#4f46e5] font-black text-xs uppercase tracking-[0.2em] mb-4">Información del Estudiante</h4>
+                <div class="text-[11px] font-bold space-y-2">
+                    <p class="uppercase">Nombre: <span class="font-normal text-slate-300">Lopez Gamez Lucas Ariel</span></p>
+                    <p class="uppercase">Universidad: <span class="font-normal text-slate-300">UTC</span></p>
+                </div>
+            </div>
+            <div class="md:text-right">
+                <h4 class="text-[#4f46e5] font-black text-xs uppercase tracking-[0.2em] mb-4">Materia</h4>
+                <div class="text-[11px] font-bold space-y-2">
+                    <p class="uppercase">Nombre: <span class="font-normal text-slate-300">App Web Orientados a Servicio</span></p>
+                    <p class="uppercase">Ciclo: <span class="font-normal text-slate-300">5 Cuatrimestre (2026)</span></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        let currentUnit = 1;
+        let database = JSON.parse(localStorage.getItem('soa_lucas_vFinal')) || [];
+
+        document.getElementById('work-file').addEventListener('change', function(e) {
+            const fileName = e.target.files[0] ? e.target.files[0].name : "Selecciona tu archivo";
+            document.getElementById('file-label').innerText = fileName;
+        });
+
+        function toggleSearch() { document.getElementById('search-overlay').classList.toggle('open'); }
+        function selectFromSearch(num, title) { toggleSearch(); openUnit(num, title); }
+        function showView(viewId) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+            window.scrollTo(0,0);
+        }
+
+        function toggleAccordion(id) {
+            document.getElementById(id).classList.toggle('active');
+        }
+
+        function openUnit(num, title) {
+            currentUnit = num;
+            document.getElementById('unit-title').innerText = "UNIDAD " + num + ": " + title;
+            showView('unit-detail');
+            renderEvidences();
+        }
+
+        function openModal() { document.getElementById('modal-upload').classList.remove('hidden'); }
+        function closeModal() { 
+            document.getElementById('modal-upload').classList.add('hidden');
+            document.getElementById('file-label').innerText = "Selecciona tu archivo";
+            document.getElementById('form-work').reset();
+        }
+
+        // NUEVA FUNCIÓN PARA ELIMINAR
+        function deleteWork(id) {
+            if(confirm('¿Estás seguro de que deseas eliminar este archivo?')) {
+                database = database.filter(item => item.id !== id);
+                localStorage.setItem('soa_lucas_vFinal', JSON.stringify(database));
+                renderEvidences();
+            }
+        }
+
+        document.getElementById('form-work').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const fileInput = document.getElementById('work-file');
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            
+            reader.onload = function(event) {
+                const work = {
+                    id: Date.now(),
+                    unit: currentUnit,
+                    type: document.getElementById('work-type').value,
+                    title: document.getElementById('work-name').value,
+                    fileData: event.target.result,
+                    fileName: file.name,
+                    comment: document.getElementById('work-comment').value,
+                    date: new Date().toLocaleDateString()
+                };
+                database.push(work);
+                localStorage.setItem('soa_lucas_vFinal', JSON.stringify(database));
+                closeModal();
+                renderEvidences();
+            };
+            reader.readAsDataURL(file);
+        });
+
+        function renderEvidences() {
+            const contSaber = document.getElementById('container-saber');
+            const contHacer = document.getElementById('container-hacer');
+            contSaber.innerHTML = "";
+            contHacer.innerHTML = "";
+            
+            const filtered = database.filter(item => item.unit == currentUnit);
+
+            filtered.forEach(item => {
+                const card = `
+                    <div class="bg-white border-2 border-slate-100 p-6 rounded-[2rem] hover:shadow-xl transition flex flex-col justify-between mb-6 shadow-sm min-h-[250px]">
+                        <div>
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="p-3 rounded-2xl ${item.type == 'saber' ? 'bg-indigo-50 text-indigo-600' : 'bg-emerald-50 text-emerald-600'}">
+                                    <i class="fas ${item.type == 'saber' ? 'fa-book' : 'fa-laptop-code'} fa-sm"></i>
+                                </span>
+                                <div class="flex items-center space-x-3">
+                                    <span class="text-[8px] font-black text-slate-400 uppercase">${item.date}</span>
+                                    <button onclick="deleteWork(${item.id})" class="text-red-300 hover:text-red-600 transition">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <h4 class="font-black text-slate-800 uppercase text-[11px] mb-2 leading-tight">${item.title}</h4>
+                            <p class="text-[9px] text-slate-500 italic mb-4 leading-relaxed">${item.comment ? `"${item.comment}"` : "Sin comentario."}</p>
+                        </div>
+                        <a href="${item.fileData}" download="${item.fileName}" class="block w-full text-center bg-[#1e1e4f] text-white py-3 rounded-xl font-black text-[8px] hover:bg-indigo-600 transition uppercase tracking-widest mt-2">Descargar Archivo</a>
+                    </div>
+                `;
+                
+                if(item.type === 'saber') contSaber.innerHTML += card;
+                else contHacer.innerHTML += card;
+            });
+
+            if(!contSaber.innerHTML) contSaber.innerHTML = `<p class="col-span-full py-10 text-center text-slate-300 uppercase font-black text-[8px] italic opacity-40">No hay evidencias en Saber</p>`;
+            if(!contHacer.innerHTML) contHacer.innerHTML = `<p class="col-span-full py-10 text-center text-slate-300 uppercase font-black text-[8px] italic opacity-40">No hay evidencias en Saber Hacer</p>`;
+        }
+
+        // Inicializar vista
+        renderEvidences();
+    </script>
+</body>
+</html>
